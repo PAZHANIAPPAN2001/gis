@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+   <head>
+      <meta charset="utf-8">
+      <title>Geotagging</title>
+      <link rel="icon" href="map-icon1.png" type="image/png">
+      <link rel="stylesheet" href="css/style.css">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="css/style1.css">
+   </head>
+   <body>
+      <header><center><h1 style="color:green;">GIS Based Landmarks info system A Crowd Source App</h1></center></header><br>
+      <header><center><h2 style="color:green;">GeoTagging of Landmarks</h2></center></header><br>
+      <nav>
+         <div class="menu-icon">
+            <span class="fas fa-bars"></span>
+         </div>
+      <!--  <div class="logo">
+            MCA-->
+         </div>
+         <div class="nav-items">
+          <label class="logo">Geotagging</label>          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <li><a href="index.php">Home</a></li>
+            <li><a href="geotagging.html">GeoTagging</a></li>
+            <li><a class="action" href="STATE_MASTER.php">State</a></li>
+            <li><a href="district_master.php">District</a></li>
+            <li><a href="taluk_master.php">Taluk</a></li>
+            <li><a href="village_master.php">Village</a></li>
+            <li><a href="index.php">Logout</a></li>
+            <!--<li><a href="about1.html">About</a></li>
+            <li><a href="contact1.html">Contact</a></li>-->
+
+            <!--<li><a href="#">Login</a></li>-->
+         </div>
+
+        <!-- <div class="search-icon">
+            <span class="fas fa-search"></span>
+         </div>
+         <div class="cancel-icon">
+            <span class="fas fa-times"></span>
+         </div>-->
+        <!-- <form action="index.php">
+            <input type="text" class="search-data" id="search" placeholder="Search..." required>
+            <button type="submit" class="fas fa-search"></button>
+         </form>-->
+      </nav>
+     <!-- <table>
+               <thead>
+                  <tr>
+                     <th>TempleID</th>&nbsp;&nbsp;&nbsp;&nbsp;
+                     <th>Temple_Name</th>
+                  </tr>
+               </thead>
+            <tbody id="table">
+            </tbody>
+         </table>-->
+<style>
+.dropbtn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #fff;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+</style>
+</head>
+<body>
+<br><br><br><br>
+<!--<div class="dropdown">
+      <button class="dropbtn">Menu &#9660;</button>
+      <div class="dropdown-content">
+        <a href="#">Temple</a>
+        <a href="#">Bank</a>
+        <a href="#">ATM</a>
+      </div>
+    </div> -->
+
+
+   <center> <div id="mapid" style=" width: 1000px;height:600px;
+  border: 10px solid grey;
+  padding: 50px;
+  ;"></div></center>
+
+    <script>
+     
+
+      // Create the map and set the initial zoom and center
+      var mymap = L.map('mapid').setView([11.1271, 78.6569], 15);
+
+      L.control.scale().addTo(mymap);
+      
+
+      // Add a tile layer to the map
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(mymap);
+
+      
+
+
+      var img = document.createElement('img');
+      img.src = 'north.jpeg';
+      img.style.width = '41px'; // Set the width of the image
+      img.style.height = '41px'; // Set the height of the image
+
+      // Create the control
+      var imgControl = L.Control.extend({
+          options: {
+              position: 'topright' // Set the position of the control
+          },
+
+    onAdd: function (mymap) {
+        // Create a container for the image
+        var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+
+        // Add the image to the container
+        container.appendChild(img);
+
+        return container;
+    }
+});
+
+// Add the control to the map
+mymap.addControl(new imgControl());
+
+
+
+   /* var streetMapLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+  maxZoom: 19
+}).addTo(mymap);*/
+
+
+      // Add a marker for the current location
+      function onLocationFound(e) {
+        var radius = e.accuracy / 2;
+        L.marker(e.latlng).addTo(mymap)
+          .bindPopup("You are within " + radius + " meters from this point").openPopup();
+        L.circle(e.latlng, radius).addTo(mymap);
+        mymap.setView(e.latlng, 16);
+      }
+
+
+      // Handle errors when trying to get the location
+      function onLocationError(e) {
+        alert(e.message);
+      }
+
+      // Try to get the current location and show it on the map
+     mymap.locate({setView: true, maxZoom: 15});
+      mymap.on('locationfound', onLocationFound);
+      mymap.on('locationerror', onLocationError);
+
+      
+  /*  // Add a click event listener to the map
+      function onMapClick(e) {
+        var popupContent = "<b>Name:</b> stadium<br><b>Description:</b> Chennai Stadium<br>" +
+                           "<b>Latitude:</b> " + e.latlng.lat.toFixed(4) + "<br><b>Longitude:</b> " + e.latlng.lng.toFixed(4);
+        L.popup()
+          .setLatLng(e.latlng)
+          .setContent(popupContent)
+          .openOn(mymap);
+      }*/
+            // Add a click event listener to the map
+    /* function onMapClick(e) {
+        var popupContent = "<form><label>Name:</label><br><input type='text' name='name'><br><br>" +
+                           "<label>Description:</label><br><input type='text' name='description'><br><br>" +
+                           "<label>Latitude:</label> " + e.latlng.lat.toFixed(4) + "<br><label>Longitude:</label> " + e.latlng.lng.toFixed(4) + "<br><br>" +
+                           "<input type='submit' value='Submit'></form>";
+
+        L.marker(e.latlng)
+          .bindPopup(popupContent)
+          .addTo(mymap);
+      }
+*/
+    function onMapClick(e) {
+     var popupContent = "<form method='POST'><label>Name:</label><br><input type='text' name='name'><br><br>" +
+                        "<label>Description:</label><br><input type='text' name='description'><br><br>" +
+                        "<label>Latitude:</label> " + e.latlng.lat.toFixed(4) + "<br><label>Longitude:</label> " + e.latlng.lng.toFixed(4) + "<br><br>" +
+                        "<input type='hidden' name='latitude' value='" + e.latlng.lat.toFixed(4) + "'>" +
+                        "<input type='hidden' name='longitude' value='" + e.latlng.lng.toFixed(4) + "'>" +
+                        "<input type='submit' value='Submit'></form>";
+
+     L.marker(e.latlng)
+       .bindPopup(popupContent)
+       .addTo(mymap)
+       .openPopup();
+     }
+
+     $('form').submit(function(event){
+         event.preventDefault();
+         $.ajax({
+             type: "POST",
+             url: "save_marker.php",
+             data: $('form').serialize(),
+             success: function(response){
+                 console.log(response);
+             },
+             error: function(){
+                 console.log('Error submitting form!');
+             }
+         });
+     });
+      mymap.on('click', onMapClick);
+      
+    </script>
+    
+    <style type="text/css">footer{
+      text-align: center;
+        
+      background-color:green;
+      color:#fff;
+      position: relative;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      width: 100%;
+      padding-top: 30px;
+      padding-bottom: 100px;
+      line-height: 25px;
+    }
+    footer{
+  text-align: center;
+    
+  background-color:green;
+  color:#fff;
+  position: relative;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  width: 100%;
+  padding-top: 30px;
+  padding-bottom: 100px;
+  line-height: 25px;
+}
+
+.foot1
+{
+width:33.33%;
+border-style:hidden;
+float:left;
+}
+.footer:after{
+  content: "";
+  display: inline-block;
+  clear:both;
+  
+}
+.foot1 p{
+  font-size: 30px;
+
+}
+</style>
+<br>
+<br><br><br><br><br>
+      <footer>
+<div class="footer">
+  <div class="foot1">
+    <center><h2>Devoloped by</h2></center>
+    <center>R.Glory,Presidency college</center>
+    <center>PAZHANIAPPAN A,Presidency college</center>
+  </div>
+  <div class="foot1">
+    <center><h2>About</h2></center>
+    <center><font size="5">MCA Curriculam project</font></center>
+  </div>
+  <div class="foot1">
+    <center><h2>Contact</h2></center>
+    <center>email:gloryrosy626@gmail.com</center>
+    <center>email:pazhaniappanbca@gmail.com</center>
+  </div>
+</div></footer>
+  </body>
+</html>
